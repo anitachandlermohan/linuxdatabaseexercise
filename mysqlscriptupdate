@@ -1,0 +1,17 @@
+#!/bin/bash
+cd /home/adminam/Desktop/exercise
+
+
+sqlite3 versionIDupdate1  	
+"CREATE TABLE versionID (versionID int);"
+
+
+ls [[:digit:]]*.sql | sed 's/^[^0-9]*//;s/[^0-9].*$//' |sort -g| tee /home/adminam/Desktop/versionIDupdate.txt
+
+file="/home/adminam/Desktop/versionIDupdate.txt"
+while IFS= read -r line
+do
+sqlite3 /home/adminam/Desktop/versionIDupdate1 "UPDATE versionID SET versionID = $line WHERE versionID < $line"
+done<"$file"
+
+
